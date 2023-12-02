@@ -1,4 +1,4 @@
 -- liquibase formatted sql
 
--- changeset cod:1
+---- changeset cod:1
 
