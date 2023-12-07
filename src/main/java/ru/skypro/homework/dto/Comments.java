@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class Comments {
     private Integer count;
-    private Comment result;
+    private CommentDto result;
 }
 
