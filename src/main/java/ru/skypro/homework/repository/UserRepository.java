@@ -8,3 +8,4 @@ import ru.skypro.homework.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 }
+
