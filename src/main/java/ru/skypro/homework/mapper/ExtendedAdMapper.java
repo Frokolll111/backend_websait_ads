@@ -21,4 +21,5 @@ public interface ExtendedAdMapper {
 
     @InheritInverseConfiguration
     Ad extendedAdToAd(ExtendedAd extendedAd);
+
 }

@@ -15,4 +15,5 @@ public interface LoginMapper {
     Register loginToRegister(Login login);
 
     Login registerToLogin(Register register);
+
 }

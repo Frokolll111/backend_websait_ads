@@ -17,4 +17,5 @@ public interface NewPasswordMapper {
 
     @InheritInverseConfiguration
     NewPassword userToNewPassword(User user);
+
 }

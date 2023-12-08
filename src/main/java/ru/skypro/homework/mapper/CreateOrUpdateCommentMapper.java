@@ -12,4 +12,5 @@ public interface CreateOrUpdateCommentMapper {
 
     @Mapping(source = "text", target = "text")
     CreateOrUpdateComment commentToCreateOrUpdateComment(Comment comment);
+
 }

@@ -14,4 +14,5 @@ public interface CreateOrUpdateAdMapper {
     Ad createOrUpdateAdToAd(CreateOrUpdateAd createOrUpdateAd);
 
     CreateOrUpdateAd adToCreateOrUpdateAd(Ad ad);
+
 }
