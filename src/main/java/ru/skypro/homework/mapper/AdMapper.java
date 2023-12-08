@@ -6,33 +6,18 @@ import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.entity.Ad;
+import ru.skypro.homework.entity.User;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AdMapper {
-
     AdMapper INSTANCE = Mappers.getMapper(AdMapper.class);
-
     @Mappings({
-            @Mapping(target = "author", source = "user.id"),
-            @Mapping(target = "image", source = "adImage"),
-            @Mapping(target = "pk", source = "pk"),
-            @Mapping(target = "price", source = "price"),
-            @Mapping(target = "title", source = "title")
-    })
-    AdDto adToAdDto(Ad ad);
+            @Mapping(source = "user.id", target = "author"),
+            @Mapping(source = "ad.adImage", target = "image"),})
+    AdDto toDto(Ad ad, User user);
 
-    @Mappings({
-            @Mapping(target = "user.id", source = "author"),
-            @Mapping(target = "adImage", source = "image"),
-            @Mapping(target = "pk", source = "pk"),
-            @Mapping(target = "price", source = "price"),
-            @Mapping(target = "title", source = "title")
-    })
-    Ad adDtoToAd(AdDto adDto);
-
-    List<AdDto> adsToAdDtos(List<Ad> ads);
-
-    List<Ad> adDtosToAds(List<AdDto> adDtos);
+    @Mapping(target = "adImage", source = "adDto.image")
+    Ad toModel(AdDto adDto);
 }
