@@ -4,40 +4,25 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.dto.UserDto;
+import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface UserMapper {
-
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "firstName", target = "firstName"),
-            @Mapping(source = "lastName", target = "lastName"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "role", target = "role"),
-            @Mapping(source = "userImage", target = "image")
-    })
-    UserDto userToUserDto(User user);
-
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "firstName", target = "firstName"),
-            @Mapping(source = "lastName", target = "lastName"),
-            @Mapping(source = "phone", target = "phone"),
-            @Mapping(source = "role", target = "role"),
-            @Mapping(source = "image", target = "userImage")
-    })
-    User userDtoToUser(UserDto userDto);
-
-    List<UserDto> usersToUserDtos(List<User> users);
-
-    List<User> userDtosToUsers(List<UserDto> userDtos);
-
+            @Mapping(source = "userImage", target = "image"),
+            @Mapping(target = "userName", ignore = true),
+            @Mapping(target = "userName", ignore = true),
+            @Mapping(target = "password", ignore = true),
+            @Mapping(target = "countAd", ignore = true),
+            @Mapping(target = "adList", ignore = true),
+            @Mapping(target = "commentList", ignore = true)})
+//    Возможно можно убрать все или несколько игноров и изменить источник у листов указывая через точку откуда берется источник
+//    (возможно где-то и цель надо так сделать)
+    UserDto toDto(User user);
 }

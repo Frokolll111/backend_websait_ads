@@ -1,4 +1,4 @@
-package ru.skypro.homework.mapper;
+package ru.skypro.homework;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
