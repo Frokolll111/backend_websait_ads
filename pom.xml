@@ -74,6 +74,18 @@
       <artifactId>liquibase-core</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>1.4.2.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>2.3.9</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -90,6 +102,7 @@
           </excludes>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
