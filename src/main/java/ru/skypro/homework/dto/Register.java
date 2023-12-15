@@ -32,4 +32,28 @@ public class Register {
     @Schema(description = "роль пользователя")
     @NotBlank
     private Role role;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 }
