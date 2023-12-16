@@ -2,18 +2,16 @@ package ru.skypro.homework.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
+
+import org.mapstruct.ReportingPolicy;
+
 import ru.skypro.homework.dto.Login;
-import ru.skypro.homework.dto.Register;
+import ru.skypro.homework.entity.User;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LoginMapper {
-
-    LoginMapper INSTANCE = Mappers.getMapper(LoginMapper.class);
-
-    Register loginToRegister(Login login);
-
-    Login registerToLogin(Register register);
+    @Mapping(source = "login.username", target = "userName")
+    @Mapping(source = "login.password", target = "password")
+    User toModel(Login login);
 
 }

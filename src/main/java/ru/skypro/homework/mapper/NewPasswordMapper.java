@@ -1,21 +1,20 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.entity.User;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {NewPasswordMapper.class})
 public interface NewPasswordMapper {
 
     NewPasswordMapper INSTANCE = Mappers.getMapper(NewPasswordMapper.class);
+    @Mapping(source = "user.password", target = "currentPassword")
+    NewPassword toDto(User user);
 
-    @Mapping(source = "newPassword", target = "password")
-    User newPasswordToUser(NewPassword newPassword);
-
-    @InheritInverseConfiguration
-    NewPassword userToNewPassword(User user);
-
+    @Mapping(source = "newPassword.newPassword", target = "password")
+    User toModel(NewPassword newPassword);
+    @InheritConfiguration
+    void updateModel(NewPassword newPassword, @MappingTarget User user);
 }
