@@ -7,7 +7,7 @@ import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.entity.Ad;
 
 import java.util.List;
-@Mapper
+@Mapper(uses = AdsMapper.class)
 public interface AdsMapper {
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
     @Mapping(target = "author", source = "user.id")

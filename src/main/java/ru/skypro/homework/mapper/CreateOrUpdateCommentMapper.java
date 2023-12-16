@@ -1,16 +1,19 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Comment;
-
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CreateOrUpdateCommentMapper {
+    CreateOrUpdateCommentMapper INSTANCE = Mappers.getMapper(CreateOrUpdateCommentMapper.class);
 
-    @Mapping(source = "text", target = "text")
-    Comment createOrUpdateCommentToComment(CreateOrUpdateComment createOrUpdateComment);
+    @Mapping(target = "text", source = "text")
+    CreateOrUpdateComment toDto(Comment comment);
 
-    @Mapping(source = "text", target = "text")
-    CreateOrUpdateComment commentToCreateOrUpdateComment(Comment comment);
+    @Mapping(target = "text", source = "text")
+    Comment toModel(CreateOrUpdateComment createOrUpdateComment);
 
 }

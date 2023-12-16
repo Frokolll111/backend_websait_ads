@@ -13,9 +13,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AdMapper {
     AdMapper INSTANCE = Mappers.getMapper(AdMapper.class);
+
     @Mappings({
             @Mapping(source = "user.id", target = "author"),
-            @Mapping(source = "ad.adImage", target = "image"),})
+            @Mapping(source = "ad.adImage", target = "image"),
+            @Mapping(target = "ad.description", ignore = true),
+            @Mapping(target = "ad.countComment", ignore = true),
+            @Mapping(target = "ad.commentList", ignore = true)})
     AdDto toDto(Ad ad, User user);
 
     @Mapping(target = "adImage", source = "adDto.image")
