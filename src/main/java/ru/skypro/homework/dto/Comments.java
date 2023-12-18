@@ -13,5 +13,11 @@ public class Comments {
     private Integer count;
     @Schema(description = "комментарии")
     private List<CommentDto> result;
+
+
+    public Comments(List<CommentDto> result) {
+        this.result = result;
+        this.count = result.size();
+    }
 }
 
