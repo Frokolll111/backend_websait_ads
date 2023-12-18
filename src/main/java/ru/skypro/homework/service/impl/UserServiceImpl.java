@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return currentAuthor.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
     }
 
-//      Проверка авторизации пользователя в БД>
+//      Проверка авторизации пользователя в БД
     @Override
     public UserDetails loadUserByUsername(String userName) {
         User user = userRepository.findByUserName(userName);

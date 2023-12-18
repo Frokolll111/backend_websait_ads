@@ -1,6 +1,7 @@
 package ru.skypro.homework.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -13,6 +14,13 @@ public interface RegisterMapper {
 
     RegisterMapper INSTANCE = Mappers.getMapper(RegisterMapper.class);
 
-    User toEntity(Register register, @MappingTarget User user);
+    @Mapping(source = "registerDto.username", target = "userName")
+    @Mapping(source = "registerDto.password", target = "password")
+    @Mapping(source = "registerDto.firstName", target = "firstName")
+    @Mapping(source = "registerDto.lastName", target = "lastName")
+    @Mapping(source = "registerDto.phone", target = "phone")
+    @Mapping(source = "registerDto.role", target = "role")
+    @Mapping(source = "registerDto.username", target = "email")
+    User toModel(Register registerDto);
     Register toDTO(User user);
 }

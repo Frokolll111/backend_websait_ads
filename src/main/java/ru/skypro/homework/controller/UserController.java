@@ -1,6 +1,8 @@
 package ru.skypro.homework.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDto;
+import ru.skypro.homework.service.UserService;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -20,10 +23,30 @@ import ru.skypro.homework.dto.UserDto;
 @RequestMapping("/users")
 public class UserController {
 
+    private final UserService userService;
+
+    @Operation(
+            summary = "Обновление пароля",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    )
+
+            }
+    )
+
     @PostMapping("/set_password")
-    public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword updatePasswordDTO, Authentication authentication){
-        authentication.getName();
-        return ResponseEntity.ok().build();
+    public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword updatePassword, Authentication authentication){
+        return ResponseEntity.ok(userService.setPassword(updatePassword, authentication));
     }
 
     @GetMapping("/me")
