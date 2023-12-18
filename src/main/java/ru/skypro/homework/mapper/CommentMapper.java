@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CommentDto;
+import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.User;
 
@@ -26,4 +27,6 @@ public interface CommentMapper {
     @Mapping(target = "user.userImage",  source= "authorImage")
     @Mapping(target = "user.firstName", source = "authorFirstName")
     Comment toModel(CommentDto commentDto);
+
+    Comment toModel(CreateOrUpdateComment createOrUpdateComment);
 }
