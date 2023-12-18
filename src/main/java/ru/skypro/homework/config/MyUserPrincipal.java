@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.UserDetailsManager;
 import ru.skypro.homework.entity.User;
 
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.user.getUserName();
+        return this.user.getEmail();
     }
 
     @Override
