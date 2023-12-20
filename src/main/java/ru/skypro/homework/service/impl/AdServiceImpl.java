@@ -66,7 +66,7 @@ public class AdServiceImpl implements AdService{
     /**
      * Метод создает объявление
      *
-     * @param createOrUpdateAdDto title,price,description
+     * @param createOrUpdateAd title,price,description
      * @return AdDto
      */
     @Override
@@ -105,7 +105,7 @@ public class AdServiceImpl implements AdService{
     public void removeAd(int pk, Authentication authentication) throws UnavailableException {
        Ad ad = adRepository.findByPk(pk).orElseThrow();
         Ad newAd = adRepository.getReferenceById(pk);
-        String currentAuthor = newAd.getUser().getUserName();
+        String currentAuthor = newAd.getUser().getUsername();
         if (ad.getUser().getRole().equals(Role.USER)) {
             if (ad.getAdImage() != null) {
                 try {
@@ -135,7 +135,7 @@ public class AdServiceImpl implements AdService{
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAdDto);
         User user = userRepository.findUserByUserName(authentication);
         Ad newAd = adRepository.getReferenceById(pk);
-        String currentAuthor = newAd.getUser().getUserName();
+        String currentAuthor = newAd.getUser().getUsername();
         if (ad.getUser().getRole().equals(Role.USER)) {
             newAd.setTitle(ad.getTitle());
             newAd.setPrice(ad.getPrice());

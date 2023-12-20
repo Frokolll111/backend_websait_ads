@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.config.MyUserPrincipal;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.UpdateUser;
@@ -31,7 +30,7 @@ import java.nio.file.Path;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
@@ -95,12 +94,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean checkUserRole(String currentAuthor, Authentication authentication) {
         User user = findUserByUsername(authentication);
         return currentAuthor.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
-    }
-
-//      Проверка авторизации пользователя в БД
-    @Override
-    public UserDetails loadUserByUsername(String userName) {
-        User user = userRepository.findByUserName(userName);
-        return new MyUserPrincipal(user);
     }
 }

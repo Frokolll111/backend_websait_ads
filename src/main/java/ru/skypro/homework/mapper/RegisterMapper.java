@@ -14,13 +14,6 @@ public interface RegisterMapper {
 
     RegisterMapper INSTANCE = Mappers.getMapper(RegisterMapper.class);
 
-    @Mapping(source = "registerDto.username", target = "userName")
-    @Mapping(source = "registerDto.password", target = "password")
-    @Mapping(source = "registerDto.firstName", target = "firstName")
-    @Mapping(source = "registerDto.lastName", target = "lastName")
-    @Mapping(source = "registerDto.phone", target = "phone")
-    @Mapping(source = "registerDto.role", target = "role")
-    @Mapping(source = "registerDto.username", target = "email")
-    User toModel(Register registerDto);
+    User toEntity(Register register, @MappingTarget User user);
     Register toDTO(User user);
 }
