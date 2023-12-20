@@ -9,11 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.stereotype.Component;
+import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.repository.UserRepository;
 
 import java.nio.file.AccessDeniedException;
-
+@Component
 public class MyUserDetailsService implements UserDetailsManager {
 
     private AuthenticationManager authenticationManager;
@@ -32,7 +34,11 @@ public class MyUserDetailsService implements UserDetailsManager {
     @Override
     public void createUser(UserDetails user) {
 //нужна реализация
-        userRepository.save((User) user);
+        User u = new User();
+        u.setUserName(user.getUsername());
+        u.setPassword(user.getPassword());
+        u.setRole(Role.valueOf(user.getAuthorities().iterator().next().getAuthority().substring(5)));
+        userRepository.save(u);
     }
 
     @Override
