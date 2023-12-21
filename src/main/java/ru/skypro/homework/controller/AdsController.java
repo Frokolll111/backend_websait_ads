@@ -16,7 +16,7 @@ import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.dto.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ExtendedAd;
-import ru.skypro.homework.service.impl.AdService;
+import ru.skypro.homework.service.AdService;
 
 import javax.servlet.UnavailableException;
 
@@ -69,7 +69,7 @@ public class AdsController {
                                         Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        return ResponseEntity.ok(adService.addAds(properties, image, authentication, userName));
+        return ResponseEntity.ok(adService.addAd(properties, image, authentication, userName));
     }
 
     @Operation(
@@ -94,7 +94,7 @@ public class AdsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ExtendedAd> getAd(@PathVariable int id){
-        return new ResponseEntity<>(adService.getAds(id), HttpStatus.OK);
+        return new ResponseEntity<>(adService.getAd(id), HttpStatus.OK);
     }
 
     @Operation(
@@ -150,7 +150,7 @@ public class AdsController {
     public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable int adsId,
                                            @RequestBody CreateOrUpdateAd createOrUpdateAd,
                                            Authentication authentication) throws UnavailableException {
-        return ResponseEntity.ok(adService.updateAds(createOrUpdateAd, authentication, adsId ));
+        return ResponseEntity.ok(adService.updateAd(createOrUpdateAd, authentication, adsId ));
     }
 
     @Operation(

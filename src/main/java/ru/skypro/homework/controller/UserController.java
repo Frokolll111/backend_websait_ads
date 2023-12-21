@@ -105,28 +105,7 @@ public class UserController {
                                                   Authentication authentication) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        log.info("запрос на добавление аватара");
         userService.updateImage(image, authentication, userName);
         return ResponseEntity.ok().build();
-    }
-
-    @Operation(
-            summary = "Обновление аватара авторизованного пользователя",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
-    @GetMapping(value = "/get/{filename}",
-            produces = {MediaType.IMAGE_PNG_VALUE,
-                    MediaType.IMAGE_JPEG_VALUE,
-                    MediaType.IMAGE_GIF_VALUE,
-                    "image/*"})
-    public ResponseEntity<byte[]> serveFile(@PathVariable String filename) {
-        return ResponseEntity.ok().body(userService.getUserImage(filename));
     }
 }

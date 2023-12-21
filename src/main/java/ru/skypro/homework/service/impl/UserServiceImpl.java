@@ -36,7 +36,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
-//    Редактирование данных пользователя
+    /**
+     * Редактирование данных пользователя
+     * @param updateUser имя, фамилия, телефон
+     * @param authentication данные аутентификации
+     * @return UpdateUser
+     */
     @Override
     public UpdateUser update(UpdateUser updateUser, Authentication authentication) {
         User user = findUserByUsername(authentication);
@@ -45,7 +50,12 @@ public class UserServiceImpl implements UserService {
         return UpdateUserMapper.INSTANCE.toDTO(user);
     }
 
-//    Изменение пароля пользователя
+    /**
+     * Изменение пароля пользователя
+     * @param newPassword старый и новый пароль
+     * @param authentication данные аутентификации
+     * @return NewPassword
+     */
     @Override
     public NewPassword setPassword(NewPassword newPassword, Authentication authentication) {
         User user = findUserByUsername(authentication);
@@ -60,14 +70,23 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//      Получение информации о зарегистрированном пользователе
+    /**
+     * Получение информации о зарегистрированном пользователе
+     * @param authentication данные аутентификации
+     * @return UserDto
+     */
     @Override
     public UserDto getUserDto(Authentication authentication) {
         User user = findUserByUsername(authentication);
         return UserMapper.INSTANCE.toDto(user);
     }
 
-//      Обновление аватара пользователя
+    /**
+     * Обновление аватара пользователя
+     * @param image аватар пользователя
+     * @param authentication данные аутентификации
+     * @param userName login пользователя
+     */
     @Override
     public void updateImage(MultipartFile image, Authentication authentication, String userName) {
         User user = findUserByUsername(authentication);
@@ -84,29 +103,25 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-//    Проверка пользователя в БД
+    /**
+     * Проверка пользователя в БД
+     * @param authentication данные аутентификации
+     * @return User
+     */
     @Override
     public User findUserByUsername(Authentication authentication) {
         return userRepository.findByUserName(authentication.getName());
     }
 
-//      Проверка прав для изменения, удаления
+    /**
+     * Проверка прав для изменения, удаления
+     * @param userName login пользователя
+     * @param authentication данные аутентификации
+     * @return boolean
+     */
     @Override
-    public boolean checkUserRole(String currentAuthor, Authentication authentication) {
+    public boolean checkUserRole(String userName, Authentication authentication) {
         User user = findUserByUsername(authentication);
-        return currentAuthor.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
-    }
-
-    @Override
-    public byte[] getUserImage(String filename) {
-        try {
-            return Files.readAllBytes(Paths.get(System.getProperty("user.dir")
-                    + "/"
-                    + "avatars"
-                    + "/"
-                    + filename));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return userName.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
     }
 }

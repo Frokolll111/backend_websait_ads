@@ -1,4 +1,4 @@
-package ru.skypro.homework.service.impl;
+package ru.skypro.homework.service;
 
 
 import org.springframework.security.core.Authentication;
@@ -13,11 +13,11 @@ import javax.servlet.UnavailableException;
 @Service
 public interface AdService {
 
-    AdDto addAds(CreateOrUpdateAd createOrUpdateAdDto, MultipartFile image,
+    AdDto addAd(CreateOrUpdateAd createOrUpdateAdDto, MultipartFile image,
                  Authentication authentication, String userName);
-    CreateOrUpdateAd updateAds(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException;
+    CreateOrUpdateAd updateAd(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException;
     Ads getAllAds();
-    ExtendedAd getAds(int pk);
+    ExtendedAd getAd(int pk);
     Ads getAdsMe(Authentication authentication);
 
     void removeAd(int pk, Authentication authentication) throws UnavailableException;
