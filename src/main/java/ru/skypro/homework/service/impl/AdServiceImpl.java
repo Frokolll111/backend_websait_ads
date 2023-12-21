@@ -138,7 +138,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public CreateOrUpdateAd updateAd(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException {
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAdDto);
-        User user = userRepository.findUserByUserName(authentication);
+        User user = userRepository.findByUserName(authentication.getName());
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
         if (ad.getUser().getRole().equals(Role.USER)) {
@@ -160,7 +160,7 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public Ads getAdsMe(Authentication authentication) {
-        User user = userRepository.findUserByUserName(authentication);
+        User user = userRepository.findByUserName(authentication.getName());
         List<Ad> adList = adRepository.findAdByUser(user);
         Ads adsDto = new Ads();
         if (adList == null) {
@@ -182,7 +182,7 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public void uploadImage(int pk, Authentication authentication, MultipartFile image, String userName) {
-        User user = userRepository.findUserByUserName(authentication);
+        User user = userRepository.findUserByUserName(authentication); // userRepository.findByUserName(authentication.getName()) может быть!!!
         Ad ad = adRepository.findByPk(pk).orElseThrow();
         if (ad.getAdImage() != null) {
             try {
