@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @AllArgsConstructor
@@ -94,5 +95,18 @@ public class UserServiceImpl implements UserService {
     public boolean checkUserRole(String currentAuthor, Authentication authentication) {
         User user = findUserByUsername(authentication);
         return currentAuthor.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
+    }
+
+    @Override
+    public byte[] getUserImage(String filename) {
+        try {
+            return Files.readAllBytes(Paths.get(System.getProperty("user.dir")
+                    + "/"
+                    + "avatars"
+                    + "/"
+                    + filename));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
