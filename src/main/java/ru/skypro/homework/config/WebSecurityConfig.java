@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                                 authorization
                                         .mvcMatchers(AUTH_WHITELIST)
                                         .permitAll()
-                                        .mvcMatchers("/ads/", "/users/")
+                                        .mvcMatchers("/ads/**", "/users/**")
                                         .hasAnyRole("USER", "ADMIN")
                                         .mvcMatchers("/ads/{id}", "/ads/{id}/image", "/ads/{adId}/comments/{commentId}")
                                         .hasRole("ADMIN")
