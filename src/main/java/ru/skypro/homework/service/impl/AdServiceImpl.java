@@ -25,6 +25,7 @@ import ru.skypro.homework.mapper.ExtendedAdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserRepository;
+import ru.skypro.homework.service.AdService;
 
 import javax.servlet.UnavailableException;
 import java.io.File;
@@ -41,7 +42,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @Service
 @Slf4j
-public class AdServiceImpl implements AdService{
+public class AdServiceImpl implements AdService {
 
     private final Logger logger = LoggerFactory.getLogger(AdServiceImpl.class);
     private final AdRepository adRepository;
@@ -50,8 +51,7 @@ public class AdServiceImpl implements AdService{
     private final CommentRepository commentRepository;
 
     /**
-     * Метод выводит все объявления AdsDto
-     *
+     * Получение всех объявлений
      * @return AdsDto
      */
     @Override
@@ -63,14 +63,17 @@ public class AdServiceImpl implements AdService{
         logger.warn("Получены все объявления");
         return ads;
      }
+
     /**
-     * Метод создает объявление
-     *
-     * @param createOrUpdateAd title,price,description
+     * Добавление объявления
+     * @param createOrUpdateAd заголовок, цена, описание
+     * @param image картинка объявления
+     * @param authentication данные аутентификации
+     * @param userName login пользователя
      * @return AdDto
      */
     @Override
-    public AdDto addAds(CreateOrUpdateAd createOrUpdateAd,
+    public AdDto addAd(CreateOrUpdateAd createOrUpdateAd,
                         MultipartFile image,
                         Authentication authentication,
                         String userName) {
@@ -83,23 +86,24 @@ public class AdServiceImpl implements AdService{
         logger.info("добавлено новое объявление: " + ad);
         return AdMapper.INSTANCE.toDto(ad, user);
     }
+
     /**
-     * Метод выдает информацию по объявлению
-     *
+     * Получение информации по id объявления
      * @param pk id объявления
      * @return ExtendedAdDto
      */
     @Override
-    public ExtendedAd getAds(int pk) throws AdNotFoundException {
+    public ExtendedAd getAd(int pk) throws AdNotFoundException {
         Ad ad = adRepository.findByPk(pk).orElseThrow();
         User user = userRepository.findById(ad.getUser().getId());
         logger.info("найдено объявление: " + ad);
         return ExtendedAdMapper.INSTANCE.toDto(ad,user);
     }
+
     /**
-     * Метод удаляет объявление
-     *
+     * Удаление объявления
      * @param pk id объявления
+     * @param authentication данные аутентификации
      */
     @Override
     public void removeAd(int pk, Authentication authentication) throws UnavailableException {
@@ -123,15 +127,16 @@ public class AdServiceImpl implements AdService{
             throw new NoRightsException("нет прав");
         }
     }
+
     /**
-     * Метод обновляет объявление
-     *
-     * @param pk                  id объявления
-     * @param createOrUpdateAdDto title,price,description
+     * Обновление объявления по его id
+     * @param createOrUpdateAdDto заголовок, цена, описание
+     * @param authentication данные аутентификации
+     * @param pk id объявления
      * @return AdDto
      */
     @Override
-    public CreateOrUpdateAd updateAds(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException {
+    public CreateOrUpdateAd updateAd(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException {
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAdDto);
         User user = userRepository.findUserByUserName(authentication);
         Ad newAd = adRepository.getReferenceById(pk);
@@ -149,8 +154,8 @@ public class AdServiceImpl implements AdService{
     }
 
     /**
-     * Метод выводит все объявления пользователя AdsDto
-     *
+     * Получение всех объявлений пользователя
+     * @param authentication данные аутентификации
      * @return AdsDto
      */
     @Override
@@ -167,11 +172,13 @@ public class AdServiceImpl implements AdService{
         }
         return adsDto;
     }
+
     /**
-     * Метод обновления картинки по объявлению
-     *
-     * @param pk    уникальный идентификатор объявления
+     * Обновление картинки по id объявления
+     * @param pk уникальный идентификатор объявления
+     * @param authentication данные аутентификации
      * @param image файл изображения для объявления
+     * @param userName login пользователя
      */
     @Override
     public void uploadImage(int pk, Authentication authentication, MultipartFile image, String userName) {
@@ -191,9 +198,9 @@ public class AdServiceImpl implements AdService{
         adRepository.save(ad);
         logger.info("объявление " + ad.getPk() + " обновлено", ad);
     }
+
     /**
-     * Метод создает Url файла
-     *
+     * Создание url файла
      * @param fileName название картинки объявления
      * @return String
      */
@@ -202,8 +209,8 @@ public class AdServiceImpl implements AdService{
     }
 
     /**
-     * Метод указывает расширение файла
-     *
+     * Получение расширения файла
+     * @param fileName название картинки объявления
      * @return String
      */
     private String getExtension(String fileName) {
@@ -211,10 +218,9 @@ public class AdServiceImpl implements AdService{
     }
 
     /**
-     * Метод создает название файла
-     *
-     * @param image    картинка объявления
+     * Создание названия файла
      * @param userName login пользователя
+     * @param image картинка объявления
      * @return String
      */
     private String getFileName(String userName, MultipartFile image) {
@@ -223,10 +229,10 @@ public class AdServiceImpl implements AdService{
     }
 
     /**
-     * Метод загружает файл
-     *
-     * @param image файл
-     * @return String имя загруженного файла
+     * Загрузка файла
+     * @param image картинка объявления
+     * @param userName login пользователя
+     * @return String
      */
     private String uploadImageOnSystem(MultipartFile image, String userName) {
         String dir = System.getProperty("user.dir") + "/" + filePath;

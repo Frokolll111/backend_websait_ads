@@ -26,6 +26,11 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository = commentRepository;
     }
 
+    /**
+     * Получение всех комментариев в объявлении о его id
+     * @param adId id объявления
+     * @return Comments
+     */
     @Override
     public Comments getCommentsByAdId(Integer adId) {
         List<Comment> comments = commentRepository.findAllByAd_Pk(adId);
@@ -36,6 +41,12 @@ public class CommentServiceImpl implements CommentService {
         return new Comments(commentDtos);
     }
 
+    /**
+     * Добавление комментария к объявлению по его id
+     * @param adId id объявления
+     * @param createOrUpdateComment текст комментария
+     * @return CommentDto
+     */
     @Override
     public CommentDto addComment(Integer adId, CreateOrUpdateComment createOrUpdateComment) {
         Comment comment = CreateOrUpdateCommentMapper.INSTANCE.toModel(createOrUpdateComment);
@@ -46,11 +57,23 @@ public class CommentServiceImpl implements CommentService {
         return CommentMapper.INSTANCE.toDto(savedComment, savedComment.getUser());
     }
 
+    /**
+     * Удаление комментария к объявлению по его id
+     * @param adId id объявления
+     * @param commentId id комментария
+     */
     @Override
     public void deleteComment(Integer adId, Integer commentId) {
         commentRepository.deleteById(commentId);
     }
 
+    /**
+     * Изменения комментария к объявлению по его id
+     * @param adId id объявления
+     * @param commentId id комментария
+     * @param createOrUpdateComment текст комментария
+     * @return CommentDto
+     */
     @Override
     public CommentDto updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment) {
         Comment existingComment = commentRepository.findById(commentId)
