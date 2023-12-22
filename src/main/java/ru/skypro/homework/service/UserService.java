@@ -24,4 +24,6 @@ public interface UserService {
     User findUserByUsername(Authentication authentication);
 
     boolean checkUserRole(String currentAuthor, Authentication authentication);
+
+    byte[] getUserImage(String filename);
 }

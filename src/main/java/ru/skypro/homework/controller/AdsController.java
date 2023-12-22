@@ -19,6 +19,7 @@ import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.service.AdService;
 
 import javax.servlet.UnavailableException;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(value = "http://localhost:3000")
@@ -65,11 +66,11 @@ public class AdsController {
                     )})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
-                                       @RequestParam CreateOrUpdateAd properties,
+                                        CreateOrUpdateAd createOrUpdateAd,
                                         Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        return ResponseEntity.ok(adService.addAd(properties, image, authentication, userName));
+        return ResponseEntity.ok(adService.addAd(createOrUpdateAd, image, authentication, userName));
     }
 
     @Operation(

@@ -13,7 +13,7 @@ import javax.servlet.UnavailableException;
 @Service
 public interface AdService {
 
-    AdDto addAd(CreateOrUpdateAd createOrUpdateAdDto, MultipartFile image,
+    AdDto addAd(CreateOrUpdateAd createOrUpdateAd, MultipartFile image,
                  Authentication authentication, String userName);
     CreateOrUpdateAd updateAd(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException;
     Ads getAllAds();

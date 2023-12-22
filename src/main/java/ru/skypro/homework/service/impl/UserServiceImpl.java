@@ -124,4 +124,18 @@ public class UserServiceImpl implements UserService {
         User user = findUserByUsername(authentication);
         return userName.equals(authentication.getName()) || user.getRole() == Role.ADMIN;
     }
+
+    @Override
+    public byte[] getUserImage(String filename) {
+        try {
+            return Files.readAllBytes(Paths.get(System.getProperty("user.dir")
+                    + "/"
+                    + "avatars"
+                    + "/"
+                    + filename));
+        } catch (IOException e) {
+            log.error("ошибка в названии image Аватара" + filename);
+            throw new RuntimeException(e);
+        }
+    }
 }
