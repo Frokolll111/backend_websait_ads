@@ -19,6 +19,7 @@ import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.service.AdService;
 
 import javax.servlet.UnavailableException;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(value = "http://localhost:3000")
@@ -63,13 +64,13 @@ public class AdsController {
                             responseCode = "401",
                             description = " Unauthorized"
                     )})
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
-                                       @RequestParam CreateOrUpdateAd properties,
+                                        CreateOrUpdateAd createOrUpdateAd,
                                         Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        return ResponseEntity.ok(adService.addAd(properties, image, authentication, userName));
+        return ResponseEntity.ok(adService.addAd(createOrUpdateAd, image, authentication, userName));
     }
 
     @Operation(
@@ -147,7 +148,7 @@ public class AdsController {
                             description = "Not found"
                     )})
     @PatchMapping("/{id}")
-    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable int adsId,
+    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable  int adsId,
                                            @RequestBody CreateOrUpdateAd createOrUpdateAd,
                                            Authentication authentication) throws UnavailableException {
         return ResponseEntity.ok(adService.updateAd(createOrUpdateAd, authentication, adsId ));
@@ -191,7 +192,7 @@ public class AdsController {
                             responseCode = "404",
                             description = "Not found"
                             )})
-    @PatchMapping("/{id}/image")
+    @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Ads> updateAdsImage(@RequestParam MultipartFile image,
                                               @PathVariable int id,
                                               Authentication authentication) {

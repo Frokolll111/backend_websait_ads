@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDto;
@@ -107,5 +106,14 @@ public class UserController {
         String userName = auth.getName();
         userService.updateImage(image, authentication, userName);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/get/{filename}",
+            produces = {MediaType.IMAGE_PNG_VALUE,
+                    MediaType.IMAGE_JPEG_VALUE,
+                    MediaType.IMAGE_GIF_VALUE,
+                    "image/*"})
+    public ResponseEntity<byte[]> serverFile(@PathVariable String filename) {
+        return ResponseEntity.ok().body(userService.getUserImage(filename));
     }
 }

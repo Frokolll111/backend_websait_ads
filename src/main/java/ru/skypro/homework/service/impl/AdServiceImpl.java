@@ -26,6 +26,7 @@ import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AdService;
+import ru.skypro.homework.service.UserService;
 
 import javax.servlet.UnavailableException;
 import java.io.File;
@@ -49,6 +50,7 @@ public class AdServiceImpl implements AdService {
     private final UserRepository userRepository;
     private String filePath;
     private final CommentRepository commentRepository;
+    private final UserService userService;
 
     /**
      * Получение всех объявлений
@@ -77,8 +79,8 @@ public class AdServiceImpl implements AdService {
                         MultipartFile image,
                         Authentication authentication,
                         String userName) {
+        User user = userService.findUserByUsername(authentication);
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAd);
-        User user = userRepository.findById(ad.getUser().getId());
         String imageName = uploadImageOnSystem(image, userName);
         ad.setUser(user);
         ad.setAdImage(getUrlImage(imageName));
@@ -110,7 +112,7 @@ public class AdServiceImpl implements AdService {
        Ad ad = adRepository.findByPk(pk).orElseThrow();
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
-        if (ad.getUser().getRole().equals(Role.USER)) {
+        if (userService.checkUserRole(currentAuthor, authentication)) {
             if (ad.getAdImage() != null) {
                 try {
                     Files.delete(Path.of(System.getProperty("user.dir") + "/" + filePath
@@ -141,7 +143,7 @@ public class AdServiceImpl implements AdService {
         User user = userRepository.findByUserName(authentication.getName());
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
-        if (ad.getUser().getRole().equals(Role.USER)) {
+        if (userService.checkUserRole(currentAuthor, authentication)) {
             newAd.setTitle(ad.getTitle());
             newAd.setPrice(ad.getPrice());
             newAd.setDescription(ad.getDescription());
