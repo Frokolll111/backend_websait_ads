@@ -63,7 +63,7 @@ public class AdsController {
                             responseCode = "401",
                             description = " Unauthorized"
                     )})
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
                                        @RequestParam CreateOrUpdateAd properties,
                                         Authentication authentication){
@@ -147,10 +147,10 @@ public class AdsController {
                             description = "Not found"
                     )})
     @PatchMapping("/{id}")
-    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable int adsId,
+    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable int adId,
                                            @RequestBody CreateOrUpdateAd createOrUpdateAd,
                                            Authentication authentication) throws UnavailableException {
-        return ResponseEntity.ok(adService.updateAd(createOrUpdateAd, authentication, adsId ));
+        return ResponseEntity.ok(adService.updateAd(createOrUpdateAd, authentication, adId ));
     }
 
     @Operation(
@@ -191,7 +191,7 @@ public class AdsController {
                             responseCode = "404",
                             description = "Not found"
                             )})
-    @PatchMapping("/{id}/image")
+    @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Ads> updateAdsImage(@RequestParam MultipartFile image,
                                               @PathVariable int id,
                                               Authentication authentication) {
