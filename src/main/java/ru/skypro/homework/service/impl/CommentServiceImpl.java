@@ -8,16 +8,15 @@ import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.Comment;
-import ru.skypro.homework.entity.User;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.mapper.CreateOrUpdateCommentMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.CommentService;
+import ru.skypro.homework.service.UserService;
 
 import javax.persistence.EntityNotFoundException;
-import java.net.Authenticator;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,16 +28,19 @@ public class CommentServiceImpl implements CommentService {
     private final AdRepository adRepository;
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository, AdRepository adRepository, UserRepository userRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, AdRepository adRepository, UserRepository userRepository, UserService userService) {
         this.commentRepository = commentRepository;
         this.adRepository = adRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     /**
      * Получение всех комментариев в объявлении о его id
+     *
      * @param adId id объявления
      * @return Comments
      */
@@ -54,7 +56,8 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * Добавление комментария к объявлению по его id
-     * @param adId id объявления
+     *
+     * @param adId                  id объявления
      * @param createOrUpdateComment текст комментария
      * @return CommentDto
      */
@@ -74,32 +77,44 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * Удаление комментария к объявлению по его id
-     * @param adId id объявления
+     *
+     * @param adId      id объявления
      * @param commentId id комментария
      */
     @Override
-    public void deleteComment(Integer adId, Integer commentId) {
-        commentRepository.deleteById(commentId);
+    public void deleteComment(int adId, int commentId, Authentication authentication) {
+        Comment comment = commentRepository.findByAd_PkAndPk(adId, commentId).orElseThrow();
+        String currentAuthor = comment.getUser().getUsername();
+        if (userService.checkUserRole(currentAuthor, authentication)) {
+            commentRepository.delete(comment);
+        }
+    }
+
+    @Override
+    public void deleteAllCommentByPk(int pk) {
+        commentRepository.deleteAll(commentRepository.findAllByAd_Pk(pk));
     }
 
     /**
-     * Изменения комментария к объявлению по его id
-     * @param adId id объявления
-     * @param commentId id комментария
-     * @param createOrUpdateComment текст комментария
-     * @return CommentDto
-     */
-    @Override
-    public CommentDto updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment) {
-        Comment existingComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Комментарий не найден"));
+         * Изменения комментария к объявлению по его id
+         * @param adId id объявления
+         * @param commentId id комментария
+         * @param createOrUpdateComment текст комментария
+         * @return CommentDto
+         */
+        @Override
+        public CommentDto updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication){
+            Comment existingComment = commentRepository.findById(commentId)
+                    .orElseThrow(() -> new EntityNotFoundException("Комментарий не найден"));
 
-        Comment updatedComment = CreateOrUpdateCommentMapper.INSTANCE.toModel(createOrUpdateComment);
-        updatedComment.setAd(existingComment.getAd());
-        updatedComment.setUser(existingComment.getUser());
-        updatedComment.setPk(existingComment.getPk());
+            Comment updatedComment = CreateOrUpdateCommentMapper.INSTANCE.toModel(createOrUpdateComment);
+            updatedComment.setAd(existingComment.getAd());
+            updatedComment.setUser(existingComment.getUser());
+            updatedComment.setPk(existingComment.getPk());
+            updatedComment.setCreatedAt(LocalDateTime.now());
 
-        Comment savedComment = commentRepository.save(updatedComment);
-        return CommentMapper.INSTANCE.toDto(savedComment, savedComment.getUser());
-    }
+            Comment savedComment = commentRepository.save(updatedComment);
+            return CommentMapper.INSTANCE.toDto(savedComment, savedComment.getUser());
+        }
+
 }
