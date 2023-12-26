@@ -44,12 +44,12 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public Comments getCommentsByAdId(Integer adId) {
-        List<Comment> comments = commentRepository.findAllByAd_Pk(adId);
-        List<CommentDto> commentDtos = comments.stream()
+        List<Comment> comments = commentRepository.findAllByAdPk(adId);
+        List<CommentDto> commentsDto = comments.stream()
                 .map(comment -> CommentMapper.INSTANCE.toDto(comment, comment.getUser()))
                 .collect(Collectors.toList());
 
-        return new Comments(commentDtos);
+        return new Comments(commentsDto);
     }
 
     /**
@@ -98,6 +98,7 @@ public class CommentServiceImpl implements CommentService {
         updatedComment.setAd(existingComment.getAd());
         updatedComment.setUser(existingComment.getUser());
         updatedComment.setPk(existingComment.getPk());
+        updatedComment.setCreatedAt(LocalDateTime.now());
 
         Comment savedComment = commentRepository.save(updatedComment);
         return CommentMapper.INSTANCE.toDto(savedComment, savedComment.getUser());

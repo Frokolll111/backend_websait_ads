@@ -25,15 +25,10 @@ public class AuthController {
 
     @Operation(
             summary = "Авторизация пользователя",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
+            responses = {@ApiResponse(responseCode = "200",
+                            description = "OK"),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized")})
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody Login login) {
         if (authService.login(login.getUsername(), login.getPassword())) {
@@ -45,15 +40,11 @@ public class AuthController {
 
     @Operation(
             summary = "Регистрация пользователя",
-            responses = {
-                    @ApiResponse(
+            responses = {@ApiResponse(
                             responseCode = "201",
-                            description = "Created"
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Bad Request"
-                    )})
+                            description = "Created"),
+                    @ApiResponse(responseCode = "400",
+                            description = "Bad Request")})
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody Register register) {
         if (authService.register(register)) {
