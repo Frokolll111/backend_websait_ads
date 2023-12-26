@@ -31,19 +31,15 @@ public class UserController {
 
     @Operation(
             summary = "Обновление пароля",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden"
-                    )})
+            responses = {@ApiResponse(responseCode = "200",
+                            description = "OK",
+                            content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "403",
+                            description = "Forbidden",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/set_password")
     public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword updatePassword, Authentication authentication){
         return ResponseEntity.ok(userService.setPassword(updatePassword, authentication));
@@ -51,34 +47,25 @@ public class UserController {
 
     @Operation(
             summary = "Получение информации об авторизованным пользователем",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
+            responses = {@ApiResponse(responseCode = "200",
+                            description = "OK",
+                            content = @Content(schema = @Schema(implementation = UserDto.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @GetMapping("/me")
     public ResponseEntity<UserDto> getUser(Authentication authentication) {
         return ResponseEntity.ok(userService.getUserDto(authentication));
     }
     @Operation(
             summary = "Обновление информации об авторизованном пользователе",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
+            responses = {@ApiResponse(responseCode = "200",
                             description = "OK",
-                            content = {
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                                            schema = @Schema(implementation = UserDto.class)
-                                    )}),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
+                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                                            schema = @Schema(implementation = UpdateUser.class))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping("/me")
     public ResponseEntity<UpdateUser> updateUser(@RequestBody UpdateUser updateUser,
                                                  Authentication authentication){
@@ -86,19 +73,12 @@ public class UserController {
     }
     @Operation(
             summary = "Обновление аватара авторизованного пользователя",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
+            responses = {@ApiResponse(responseCode = "200",
                             description = "OK",
-                            content = {
-                                    @Content(
-                                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                                            schema = @Schema(implementation = UpdateUser.class)
-                                    )}),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
+                            content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image,
                                                   Authentication authentication) {
@@ -106,14 +86,5 @@ public class UserController {
         String userName = auth.getName();
         userService.updateImage(image, authentication, userName);
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping(value = "/get/{filename}",
-            produces = {MediaType.IMAGE_PNG_VALUE,
-                    MediaType.IMAGE_JPEG_VALUE,
-                    MediaType.IMAGE_GIF_VALUE,
-                    "image/*"})
-    public ResponseEntity<byte[]> serverFile(@PathVariable String filename) {
-        return ResponseEntity.ok().body(userService.getUserImage(filename));
     }
 }

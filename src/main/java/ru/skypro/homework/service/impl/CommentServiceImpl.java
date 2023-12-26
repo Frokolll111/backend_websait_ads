@@ -46,12 +46,12 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public Comments getCommentsByAdId(Integer adId) {
-        List<Comment> comments = commentRepository.findAllByAd_Pk(adId);
-        List<CommentDto> commentDtos = comments.stream()
+        List<Comment> comments = commentRepository.findAllByAdPk(adId);
+        List<CommentDto> commentsDto = comments.stream()
                 .map(comment -> CommentMapper.INSTANCE.toDto(comment, comment.getUser()))
                 .collect(Collectors.toList());
 
-        return new Comments(commentDtos);
+        return new Comments(commentsDto);
     }
 
     /**
@@ -94,27 +94,4 @@ public class CommentServiceImpl implements CommentService {
     public void deleteAllCommentByPk(int pk) {
         commentRepository.deleteAll(commentRepository.findAllByAd_Pk(pk));
     }
-
-    /**
-         * Изменения комментария к объявлению по его id
-         * @param adId id объявления
-         * @param commentId id комментария
-         * @param createOrUpdateComment текст комментария
-         * @return CommentDto
-         */
-        @Override
-        public CommentDto updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication){
-            Comment existingComment = commentRepository.findById(commentId)
-                    .orElseThrow(() -> new EntityNotFoundException("Комментарий не найден"));
-
-            Comment updatedComment = CreateOrUpdateCommentMapper.INSTANCE.toModel(createOrUpdateComment);
-            updatedComment.setAd(existingComment.getAd());
-            updatedComment.setUser(existingComment.getUser());
-            updatedComment.setPk(existingComment.getPk());
-            updatedComment.setCreatedAt(LocalDateTime.now());
-
-            Comment savedComment = commentRepository.save(updatedComment);
-            return CommentMapper.INSTANCE.toDto(savedComment, savedComment.getUser());
-        }
-
 }

@@ -1,6 +1,8 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +27,12 @@ public class AuthController {
 
     @Operation(
             summary = "Авторизация пользователя",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    )})
+            responses = {@ApiResponse(responseCode = "200",
+                            description = "OK",
+                    content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody Login login) {
         if (authService.login(login.getUsername(), login.getPassword())) {
@@ -45,15 +44,13 @@ public class AuthController {
 
     @Operation(
             summary = "Регистрация пользователя",
-            responses = {
-                    @ApiResponse(
+            responses = {@ApiResponse(
                             responseCode = "201",
-                            description = "Created"
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Bad Request"
-                    )})
+                            description = "Created",
+                    content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "400",
+                            description = "Bad Request",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody Register register) {
         if (authService.register(register)) {

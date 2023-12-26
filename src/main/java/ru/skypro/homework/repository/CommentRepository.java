@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-    List<Comment> findAllByAd_Pk(Integer adId);
+    List<Comment> findAllByAdPk(Integer adId);
 
     void deleteAllCommentByPk(int pk);
 
