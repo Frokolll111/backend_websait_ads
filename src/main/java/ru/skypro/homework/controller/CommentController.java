@@ -101,7 +101,7 @@ public class CommentController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity<CommentDto> updateComment(@PathVariable Integer adId,
+    public ResponseEntity<CreateOrUpdateComment> updateComment(@PathVariable Integer adId,
                                                                @PathVariable Integer commentId,
                                                                @RequestBody CreateOrUpdateComment createOrUpdateComment,
                                                                Authentication authentication) {

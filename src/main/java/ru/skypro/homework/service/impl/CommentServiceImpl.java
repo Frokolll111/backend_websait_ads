@@ -8,6 +8,7 @@ import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.Comment;
+import ru.skypro.homework.exception.NoRightsException;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.mapper.CreateOrUpdateCommentMapper;
 import ru.skypro.homework.repository.AdRepository;
@@ -89,9 +90,22 @@ public class CommentServiceImpl implements CommentService {
             commentRepository.delete(comment);
         }
     }
+    @Override
+    public CreateOrUpdateComment updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
+        Comment comment = commentRepository.findByAd_PkAndPk(adId, commentId).orElseThrow();
+        String currentAuthor = comment.getUser().getUsername();
+        if (userService.checkUserRole(currentAuthor, authentication)) {
+            Comment newComment = commentRepository.getReferenceById(comment.getPk());
+            newComment.setText(createOrUpdateComment.getText());
+            commentRepository.save(newComment);
+        } else {
+            throw new NoRightsException("нет прав для редактирования");
+        }
+        return CreateOrUpdateCommentMapper.INSTANCE.toDto(comment);
+    }
 
     @Override
     public void deleteAllCommentByPk(int pk) {
-        commentRepository.deleteAll(commentRepository.findAllByAd_Pk(pk));
+        commentRepository.deleteAll(commentRepository.findAllByAdPk(pk));
     }
 }

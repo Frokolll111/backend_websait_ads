@@ -11,8 +11,6 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findAllByAdPk(Integer adId);
 
-    void deleteAllCommentByPk(int pk);
-
     Optional<Comment> findByAd_PkAndPk(int adId, int commentId);
 }
 
