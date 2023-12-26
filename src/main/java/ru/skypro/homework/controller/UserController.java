@@ -49,7 +49,7 @@ public class UserController {
             summary = "Получение информации об авторизованным пользователем",
             responses = {@ApiResponse(responseCode = "200",
                             description = "OK",
-                            content = @Content(schema = @Schema(hidden = true))),
+                            content = @Content(schema = @Schema(implementation = UserDto.class))),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized",
                             content = @Content(schema = @Schema(hidden = true)))})
@@ -62,7 +62,7 @@ public class UserController {
             responses = {@ApiResponse(responseCode = "200",
                             description = "OK",
                             content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                                            schema = @Schema(implementation = UserDto.class))),
+                                            schema = @Schema(implementation = UpdateUser.class))),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized",
                             content = @Content(schema = @Schema(hidden = true)))})
@@ -75,8 +75,7 @@ public class UserController {
             summary = "Обновление аватара авторизованного пользователя",
             responses = {@ApiResponse(responseCode = "200",
                             description = "OK",
-                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                                            schema = @Schema(implementation = UpdateUser.class))),
+                            content = @Content(schema = @Schema(hidden = true))),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized",
                             content = @Content(schema = @Schema(hidden = true)))})

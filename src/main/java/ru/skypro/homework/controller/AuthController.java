@@ -1,6 +1,8 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +28,11 @@ public class AuthController {
     @Operation(
             summary = "Авторизация пользователя",
             responses = {@ApiResponse(responseCode = "200",
-                            description = "OK"),
+                            description = "OK",
+                    content = @Content(schema = @Schema(hidden = true))),
                     @ApiResponse(responseCode = "401",
-                            description = "Unauthorized")})
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody Login login) {
         if (authService.login(login.getUsername(), login.getPassword())) {
@@ -42,9 +46,11 @@ public class AuthController {
             summary = "Регистрация пользователя",
             responses = {@ApiResponse(
                             responseCode = "201",
-                            description = "Created"),
+                            description = "Created",
+                    content = @Content(schema = @Schema(hidden = true))),
                     @ApiResponse(responseCode = "400",
-                            description = "Bad Request")})
+                            description = "Bad Request",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody Register register) {
         if (authService.register(register)) {
