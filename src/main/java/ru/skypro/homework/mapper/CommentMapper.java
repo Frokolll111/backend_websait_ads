@@ -16,7 +16,6 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
-    @Mapping(source = "comment.createdAt", target = "createdAt")
     @Mapping(source = "comment.pk", target = "pk")
     @Mapping(source = "comment.text", target = "text")
     @Mapping(source = "user.id", target = "author")

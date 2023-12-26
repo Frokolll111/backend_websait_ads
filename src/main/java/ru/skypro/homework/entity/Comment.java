@@ -1,6 +1,8 @@
 package ru.skypro.homework.entity;
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
 @Setter
 @Getter
@@ -15,7 +17,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "ad_id")
     private Ad ad;
-    private long createdAt;
+    private LocalDateTime createdAt;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pk;
