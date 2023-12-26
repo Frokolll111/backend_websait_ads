@@ -11,14 +11,15 @@ import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.mapper.RegisterMapper;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AuthService;
+import ru.skypro.homework.service.MyUserDetailsService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserDetailsManager manager;
+    private final MyUserDetailsService manager;
     private final PasswordEncoder encoder;
 
-    public AuthServiceImpl(UserDetailsManager manager,
+    public AuthServiceImpl(MyUserDetailsService manager,
                            PasswordEncoder passwordEncoder) {
         this.manager = manager;
         this.encoder = passwordEncoder;
@@ -56,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
                         .username(register.getUsername())
                         .roles(register.getRole().name())
                         .build());
+        manager.createUser(register);
         return true;
     }
 }

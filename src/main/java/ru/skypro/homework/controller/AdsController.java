@@ -65,9 +65,9 @@ public class AdsController {
                             description = " Unauthorized"
                     )})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
-                                        CreateOrUpdateAd createOrUpdateAd,
-                                        Authentication authentication){
+    public ResponseEntity<AdDto> addAd(@RequestPart("image") MultipartFile image,
+                                       @RequestPart("properties") CreateOrUpdateAd createOrUpdateAd,
+                                       Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
         return ResponseEntity.ok(adService.addAd(createOrUpdateAd, image, authentication, userName));

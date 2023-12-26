@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.repository.UserRepository;
@@ -38,6 +39,16 @@ public class MyUserDetailsService implements UserDetailsManager {
         u.setUserName(user.getUsername());
         u.setPassword(user.getPassword());
         u.setRole(Role.valueOf(user.getAuthorities().iterator().next().getAuthority().substring(5)));
+        userRepository.save(u);
+    }
+
+    public void createUser(Register register) {
+//нужна реализация
+        User u = userRepository.findByUserName(register.getUsername());
+        u.setPhone(register.getPhone());
+        u.setFirstName(register.getFirstName());
+        u.setLastName(register.getLastName());
+        u.setEmail(register.getUsername());
         userRepository.save(u);
     }
 
