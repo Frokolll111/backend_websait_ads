@@ -61,7 +61,7 @@ public class AdServiceImpl implements AdService {
         List<Ad> adList = adRepository.findAll();
         Ads ads = new Ads();
         ads.setCount(adList.size());
-        ads.setResult(AdsMapper.INSTANCE.toDto(adList));
+        ads.setResults(AdsMapper.INSTANCE.toDto(adList));
         logger.warn("Получены все объявления");
         return ads;
      }
@@ -169,7 +169,7 @@ public class AdServiceImpl implements AdService {
             throw new UserAdNotFoundException(user.getId());
         } else {
             adsDto.setCount(adList.size());
-            adsDto.setResult(AdsMapper.INSTANCE.toDto(adList));
+            adsDto.setResults(AdsMapper.INSTANCE.toDto(adList));
             logger.warn("выведены все объявления авторизованного пользователя " + user.getId());
         }
         return adsDto;
