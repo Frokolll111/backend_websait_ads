@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.dto.CommentDto;
@@ -72,8 +73,9 @@ public class CommentController {
                     )})
     @PostMapping("/{id}/comments")
     public ResponseEntity<CommentDto> addComment(@PathVariable Integer id,
-                                                  CreateOrUpdateComment createOrUpdateComment) {
-        CommentDto addedComment = commentService.addComment(id, createOrUpdateComment);
+                                                  CreateOrUpdateComment createOrUpdateComment,
+                                                 Authentication authentication) {
+        CommentDto addedComment = commentService.addComment(id, createOrUpdateComment, authentication);
         return ResponseEntity.ok(addedComment);
     }
 
