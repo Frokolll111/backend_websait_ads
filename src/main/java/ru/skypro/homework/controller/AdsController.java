@@ -125,11 +125,13 @@ public class AdsController {
 
     @Operation(
             summary = "Получение объявлений авторизованного пользователя",
-            responses = {@ApiResponse(responseCode = "200",
+            responses = {
+                    @ApiResponse(responseCode = "200",
                             description = "OK",
-                            content = {@Content(
-                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Ads.class))})})
+                            content = @Content(schema = @Schema(implementation = Ads.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content(schema = @Schema(hidden = true)))})
     @GetMapping("/me")
     public ResponseEntity<Ads> getAdsMe(Authentication authentication) {
         return ResponseEntity.ok(adService.getAdsMe(authentication));
