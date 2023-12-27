@@ -94,7 +94,7 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<AdDto> deleteAds(@PathVariable int adId,
+    public ResponseEntity<AdDto> deleteAds( int adId,
                                            Authentication authentication)  throws UnavailableException {
         adService.removeAd(adId, authentication);
         return ResponseEntity.ok().build();
@@ -153,7 +153,7 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Ads> updateAdsImage(@RequestParam MultipartFile image,
+    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image,
                                               @PathVariable int id,
                                               Authentication authentication) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
