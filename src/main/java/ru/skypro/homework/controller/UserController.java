@@ -87,4 +87,6 @@ public class UserController {
         userService.updateImage(image, authentication, userName);
         return ResponseEntity.ok().build();
     }
+
+
 }
