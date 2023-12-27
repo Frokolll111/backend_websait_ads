@@ -56,11 +56,11 @@ public class AdsController {
                             content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
-                                        @RequestPart @Valid CreateOrUpdateAd createOrUpdateAd,
+                                       @RequestPart @Valid  CreateOrUpdateAd properties,
                                        Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        return ResponseEntity.ok(adService.addAd(createOrUpdateAd, image, authentication, userName));
+        return ResponseEntity.ok(adService.addAd(properties, image, authentication, userName));
     }
 
     @Operation(
