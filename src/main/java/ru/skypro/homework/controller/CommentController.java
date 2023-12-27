@@ -62,10 +62,9 @@ public class CommentController {
                             content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/{id}/comments")
     public ResponseEntity<CommentDto> addComment(@PathVariable Integer id,
-                                                  CreateOrUpdateComment createOrUpdateComment,
+                                                 @RequestBody CreateOrUpdateComment createOrUpdateComment,
                                                  Authentication authentication) {
-        CommentDto addedComment = commentService.addComment(id, createOrUpdateComment, authentication);
-        return ResponseEntity.ok(addedComment);
+        return ResponseEntity.ok(commentService.addComment( id,createOrUpdateComment, authentication));
     }
 
     @Operation(
