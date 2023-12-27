@@ -66,7 +66,9 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto addComment(Integer adId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication) {
         Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new EntityNotFoundException("Объявление не найдено по ID: " + adId));
-
+        int i = ad.getCountComment();
+        ad.setCountComment(i+1);
+        adRepository.save(ad);
         Comment comment = CreateOrUpdateCommentMapper.INSTANCE.toModel(createOrUpdateComment);
         comment.setAd(ad);
         comment.setCreatedAt(LocalDateTime.now());
@@ -86,7 +88,12 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(int adId, int commentId, Authentication authentication) {
         Comment comment = commentRepository.findByAd_PkAndPk(adId, commentId).orElseThrow();
         String currentAuthor = comment.getUser().getUsername();
+        Ad ad = adRepository.findById(adId)
+                .orElseThrow(() -> new EntityNotFoundException("Объявление не найдено по ID: " + adId));
+        int i = ad.getCountComment();
+        ad.setCountComment(i-1);
         if (userService.checkUserRole(currentAuthor, authentication)) {
+            adRepository.save(ad);
             commentRepository.delete(comment);
         }
     }

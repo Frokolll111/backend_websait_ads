@@ -83,11 +83,13 @@ public class AdServiceImpl implements AdService {
                         Authentication authentication,
                         String userName) {
         User user = userService.findUserByUsername(authentication);
-        user.setCountAd(getAdsMe(authentication).getCount());
+        int i = user.getCountAd();
+        user.setCountAd(i+1);
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAd);
         String imageName = uploadImageOnSystem(image, userName);
         ad.setUser(user);
         ad.setAdImage(getUrlImage(imageName));
+        userRepository.save(user);
         adRepository.save(ad);
         logger.info("добавлено новое объявление: " + ad);
         return AdMapper.INSTANCE.toDto(ad, user);
@@ -113,6 +115,9 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public void removeAd(int pk, Authentication authentication) throws UnavailableException {
+        User user = userService.findUserByUsername(authentication);
+        int i = user.getCountAd();
+        user.setCountAd(i-1);
         Ad ad = adRepository.findByPk(pk).orElseThrow();
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
@@ -126,6 +131,7 @@ public class AdServiceImpl implements AdService {
                 }
             }
             commentService.deleteAllCommentByPk(pk);
+            userRepository.save(user);
             adRepository.delete(ad);
             logger.info("удалено объявление id = " + pk);
 
