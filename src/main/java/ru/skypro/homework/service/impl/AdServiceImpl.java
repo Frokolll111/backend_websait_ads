@@ -26,6 +26,7 @@ import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AdService;
+import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
 
 import javax.servlet.UnavailableException;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,6 +53,7 @@ public class AdServiceImpl implements AdService {
     private String filePath;
     private final CommentRepository commentRepository;
     private final UserService userService;
+    private final CommentService commentService;
 
     /**
      * Получение всех объявлений
@@ -110,7 +113,7 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public void removeAd(int pk, Authentication authentication) throws UnavailableException {
-       Ad ad = adRepository.findByPk(pk).orElseThrow();
+        Ad ad = adRepository.findByPk(pk).orElseThrow();
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
         if (userService.checkUserRole(currentAuthor, authentication)) {
@@ -122,12 +125,12 @@ public class AdServiceImpl implements AdService {
                     throw new RuntimeException(e);
                 }
             }
-            commentRepository.deleteAllCommentByPk(pk);
+            commentService.deleteAllCommentByPk(pk);
             adRepository.delete(ad);
-            logger.info("удалено объявление " + pk);
+            logger.info("удалено объявление id = " + pk);
 
         } else {
-            throw new NoRightsException("нет прав");
+            throw new NoRightsException("нет прав для удаления");
         }
     }
 
@@ -140,8 +143,8 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public CreateOrUpdateAd updateAd(CreateOrUpdateAd createOrUpdateAdDto, Authentication authentication, int pk) throws UnavailableException {
+        User user = userService.findUserByUsername(authentication);
         Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAdDto);
-        User user = userRepository.findByUserName(authentication.getName());
         Ad newAd = adRepository.getReferenceById(pk);
         String currentAuthor = newAd.getUser().getUsername();
         if (userService.checkUserRole(currentAuthor, authentication)) {
@@ -185,7 +188,7 @@ public class AdServiceImpl implements AdService {
      */
     @Override
     public void uploadImage(int pk, Authentication authentication, MultipartFile image, String userName) {
-        User user = userRepository.findUserByUserName(authentication); // userRepository.findByUserName(authentication.getName()) может быть!!!
+        User user = userService.findUserByUsername(authentication);
         Ad ad = adRepository.findByPk(pk).orElseThrow();
         if (ad.getAdImage() != null) {
             try {
@@ -249,6 +252,20 @@ public class AdServiceImpl implements AdService {
         }
         logger.info("изображение " + imageName + " сохранено на сервере", image);
         return imageName;
+    }
+
+    @Override
+    public byte[] getAdImage(String filename) {
+        try {
+            return Files.readAllBytes(Paths.get(System.getProperty("user.dir")
+                    + "/"
+                    + filePath
+                    + "/"
+                    + filename));
+        } catch (IOException e) {
+            logger.error("ошибка в названии image объявления " + filename);
+            throw new RuntimeException(e);
+        }
     }
 
 }

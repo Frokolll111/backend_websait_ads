@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -54,8 +55,8 @@ public class AdsController {
                             description = " Unauthorized",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AdDto> addAd(@RequestPart("image") MultipartFile image,
-                                       @RequestPart("properties") CreateOrUpdateAd createOrUpdateAd,
+    public ResponseEntity<AdDto> addAd(@RequestParam MultipartFile image,
+                                       CreateOrUpdateAd createOrUpdateAd,
                                        Authentication authentication){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
@@ -94,7 +95,7 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<AdDto> deleteAds(@PathVariable int adId,
+    public ResponseEntity<AdDto> deleteAds( int adId,
                                            Authentication authentication)  throws UnavailableException {
         adService.removeAd(adId, authentication);
         return ResponseEntity.ok().build();
@@ -153,12 +154,19 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Ads> updateAdsImage(@RequestParam MultipartFile image,
+    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image,
                                               @PathVariable int id,
                                               Authentication authentication) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
         adService.uploadImage(id, authentication, image, userName );
         return ResponseEntity.ok().build();
+    }
+    @GetMapping(value = "/get/{filename}", produces = {MediaType.IMAGE_PNG_VALUE,
+            MediaType.IMAGE_JPEG_VALUE,
+            MediaType.IMAGE_GIF_VALUE,
+            "image/*"})
+    public ResponseEntity<byte[]> serveFile(@PathVariable String filename) {
+        return ResponseEntity.ok().body(adService.getAdImage(filename));
     }
 }

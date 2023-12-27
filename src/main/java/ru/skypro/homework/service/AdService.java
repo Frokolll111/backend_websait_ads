@@ -23,4 +23,7 @@ public interface AdService {
     void removeAd(int pk, Authentication authentication) throws UnavailableException;
 
     void uploadImage(int pk, Authentication authentication, MultipartFile image, String userName);
+
+    byte[] getAdImage(String filename);
+
 }

@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
@@ -80,9 +79,10 @@ public class CommentController {
                     @ApiResponse(responseCode = "404",
                             description = "Not found")})
     @DeleteMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Integer adId,
-                                              @PathVariable Integer commentId) {
-        commentService.deleteComment(adId, commentId);
+    public ResponseEntity<Void> deleteComment(@PathVariable int adId,
+                                              @PathVariable int commentId,
+                                              Authentication authentication) {
+        commentService.deleteComment(adId, commentId,authentication);
         return ResponseEntity.noContent().build();
     }
 
@@ -102,11 +102,11 @@ public class CommentController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping("/{adId}/comments/{commentId}")
-    public ResponseEntity<CommentDto> updateComment(@PathVariable Integer adId,
-                                                    @PathVariable Integer commentId,
-                                                    @RequestBody CreateOrUpdateComment createOrUpdateComment) {
-        CommentDto updatedComment = commentService.updateComment(adId, commentId, createOrUpdateComment);
-        return ResponseEntity.ok(updatedComment);
+    public ResponseEntity<CreateOrUpdateComment> updateComment(@PathVariable Integer adId,
+                                                               @PathVariable Integer commentId,
+                                                               @RequestBody CreateOrUpdateComment createOrUpdateComment,
+                                                               Authentication authentication) {
+        return ResponseEntity.ok(commentService.updateComment(adId, commentId, createOrUpdateComment, authentication));
     }
 }
 

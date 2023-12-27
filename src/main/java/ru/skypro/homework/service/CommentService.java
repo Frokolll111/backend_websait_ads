@@ -10,7 +10,9 @@ public interface CommentService {
 
     CommentDto addComment(Integer adId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication);
 
-    void deleteComment(Integer adId, Integer commentId);
+    void deleteComment(int adId, int commentId, Authentication authentication);
 
-    CommentDto updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment);
+    void deleteAllCommentByPk(int pk);
+
+    CreateOrUpdateComment updateComment(Integer adId, Integer commentId, CreateOrUpdateComment createOrUpdateComment, Authentication authentication);
 }
