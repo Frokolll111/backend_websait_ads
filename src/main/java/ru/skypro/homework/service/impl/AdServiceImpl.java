@@ -83,8 +83,7 @@ public class AdServiceImpl implements AdService {
                         Authentication authentication,
                         String userName) {
         User user = userService.findUserByUsername(authentication);
-        Ad ad = new Ad();
-        ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAd);
+        Ad ad = CreateOrUpdateAdMapper.INSTANCE.toModel(createOrUpdateAd);
         String imageName = uploadImageOnSystem(image, userName);
         ad.setUser(user);
         ad.setAdImage(getUrlImage(imageName));
