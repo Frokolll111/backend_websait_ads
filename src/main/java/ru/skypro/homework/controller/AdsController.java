@@ -117,7 +117,7 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @PatchMapping("/{id}")
-    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable int adId,
+    public ResponseEntity<CreateOrUpdateAd> updateAd (@PathVariable("id") int adId,
                                            @RequestBody CreateOrUpdateAd createOrUpdateAd,
                                            Authentication authentication) throws UnavailableException {
         return ResponseEntity.ok(adService.updateAd(createOrUpdateAd, authentication, adId ));
