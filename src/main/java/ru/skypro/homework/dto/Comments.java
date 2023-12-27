@@ -12,12 +12,12 @@ public class Comments {
     @Schema(description = "количество комментариев")
     private Integer count;
     @Schema(description = "комментарии")
-    private List<CommentDto> result;
+    private List<CommentDto> results;
 
 
-    public Comments(List<CommentDto> result) {
-        this.result = result;
-        this.count = result.size();
+    public Comments(List<CommentDto> results) {
+        this.results = results;
+        this.count = results.size();
     }
 }
 
