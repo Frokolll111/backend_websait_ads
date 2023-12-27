@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -250,6 +251,20 @@ public class AdServiceImpl implements AdService {
         }
         logger.info("изображение " + imageName + " сохранено на сервере", image);
         return imageName;
+    }
+
+    @Override
+    public byte[] getAdImage(String filename) {
+        try {
+            return Files.readAllBytes(Paths.get(System.getProperty("user.dir")
+                    + "/"
+                    + filePath
+                    + "/"
+                    + filename));
+        } catch (IOException e) {
+            logger.error("ошибка в названии image объявления " + filename);
+            throw new RuntimeException(e);
+        }
     }
 
 }
