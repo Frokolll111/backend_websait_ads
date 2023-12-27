@@ -95,7 +95,7 @@ public class AdsController {
                             description = "Not found",
                             content = @Content(schema = @Schema(hidden = true)))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<AdDto> deleteAds( int adId,
+    public ResponseEntity<AdDto> deleteAds(@PathVariable("id") int adId,
                                            Authentication authentication)  throws UnavailableException {
         adService.removeAd(adId, authentication);
         return ResponseEntity.ok().build();
