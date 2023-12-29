@@ -24,7 +24,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+/**
+ * Класс UserServiceImpl - это класс для работы с User
+ * Он предоставляет интерфейс добавления, поиска , удаления и обновления пользователя
+ */
 @Service
 @AllArgsConstructor
 @EqualsAndHashCode

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.MyUserDetailsService;
-
+/**
+ * Класс AuthServiceImpl - это класс для аутентификации
+ * Он предоставляет интерфейс регистрации и авторизации
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 

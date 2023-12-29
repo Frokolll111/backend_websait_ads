@@ -7,7 +7,9 @@ import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс UserService - это интерфейс для работы с UserServiceImpl
+ */
 @Service
 public interface UserService {
 

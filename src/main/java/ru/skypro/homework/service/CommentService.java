@@ -4,7 +4,9 @@ import org.springframework.security.core.Authentication;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
-
+/**
+ * Интерфейс CommentService - это интерфейс для работы с CommentServiceImpl
+ */
 public interface CommentService {
     Comments getCommentsByAdId(Integer adId);
 

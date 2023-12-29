@@ -4,7 +4,9 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс UpdateUserMapper представляющий преобразование UpdateUser
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UpdateUserMapper {
 

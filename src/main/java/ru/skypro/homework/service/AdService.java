@@ -10,6 +10,9 @@ import ru.skypro.homework.dto.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ExtendedAd;
 
 import javax.servlet.UnavailableException;
+/**
+ * Интерфейс AdService - это интерфейс для работы с AdServiceImpl
+ */
 @Service
 public interface AdService {
 

@@ -39,7 +39,10 @@ import java.util.List;
 import java.util.Objects;
 
 import java.util.UUID;
-
+/**
+ * Класс AdServiceImpl - это класс для работы с Ad
+ * Он предоставляет интерфейс добавления, поиска , удаления и обновления объявлений
+ */
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @Service

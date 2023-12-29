@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * Класс BasicAuthCorsFilter реализующий абстрактный класс OncePerRequestFilter
+ */
 @Component
 public class BasicAuthCorsFilter extends OncePerRequestFilter {
 

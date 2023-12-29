@@ -5,7 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс UserMapper представляющий преобразование UserDto
+ */
 @Mapper
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);

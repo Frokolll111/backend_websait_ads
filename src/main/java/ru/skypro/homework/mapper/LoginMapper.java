@@ -5,7 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.skypro.homework.dto.Login;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс LoginMapper представляющий преобразование Login
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LoginMapper {
     @Mapping(source = "login.username", target = "userName")

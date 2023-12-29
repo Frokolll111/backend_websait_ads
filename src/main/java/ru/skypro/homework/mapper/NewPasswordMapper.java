@@ -4,7 +4,9 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс NewPasswordMapper представляющий преобразование NewPassword
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = {NewPasswordMapper.class})
 public interface NewPasswordMapper {

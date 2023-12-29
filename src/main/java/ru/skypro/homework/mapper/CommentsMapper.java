@@ -7,7 +7,9 @@ import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.entity.Comment;
 import java.util.List;
-
+/**
+ * Интерфейс CommentsMapper представляющий преобразование CommentDto
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentsMapper {
     CommentsMapper INSTANCE = Mappers.getMapper(CommentsMapper.class);

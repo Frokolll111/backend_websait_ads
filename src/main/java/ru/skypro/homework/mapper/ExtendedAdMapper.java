@@ -7,7 +7,9 @@ import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс ExtendedAdMapper представляющий преобразование ExtendedAd
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ExtendedAdMapper {
 

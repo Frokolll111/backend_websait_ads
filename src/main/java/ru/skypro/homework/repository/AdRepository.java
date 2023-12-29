@@ -6,7 +6,9 @@ import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Интерфейс UserRepository представляет репозиторий для управления информацией о объявлении.
+ */
 @Repository
 public interface AdRepository extends JpaRepository<Ad, Integer> {
     List<Ad> findAdByUser(User user);

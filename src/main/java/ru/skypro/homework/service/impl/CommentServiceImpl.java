@@ -21,7 +21,10 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Класс CommentServiceImpl - это класс для работы с Comment
+ * Он предоставляет интерфейс добавления, поиска , удаления и обновления комментария
+ */
 @Service
 public class CommentServiceImpl implements CommentService {
 

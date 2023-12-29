@@ -6,7 +6,9 @@ import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.entity.Ad;
 import java.util.List;
-
+/**
+ * Интерфейс AdsMapper представляющий преобразование Ads
+ */
 @Mapper(uses = AdsMapper.class)
 public interface AdsMapper {
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
