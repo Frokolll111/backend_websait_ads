@@ -1,0 +1,27 @@
+package ru.skypro.homework.mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+import ru.skypro.homework.dto.AdDto;
+import ru.skypro.homework.entity.Ad;
+import ru.skypro.homework.entity.User;
+/**
+ * Интерфейс AdMapper представляющий преобразование AdDto
+ */
+@Mapper(componentModel = "spring")
+public interface AdMapper {
+    AdMapper INSTANCE = Mappers.getMapper(AdMapper.class);
+
+    @Mappings({
+            @Mapping(source = "user.id", target = "author"),
+            @Mapping(source = "ad.adImage", target = "image"),
+            @Mapping(target = "ad.description", ignore = true),
+            @Mapping(target = "ad.countComment", ignore = true),
+            @Mapping(target = "ad.commentList", ignore = true)})
+    AdDto toDto(Ad ad, User user);
+
+    @Mapping(target = "adImage", source = "adDto.image")
+    Ad toModel(AdDto adDto);
+}

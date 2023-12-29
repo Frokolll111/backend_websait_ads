@@ -1,27 +1,38 @@
 package ru.skypro.homework.controller;
 
-import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import ru.skypro.homework.dto.Login;
-import ru.skypro.homework.dto.Register;
+import org.springframework.web.bind.annotation.*;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.AuthService;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
-@RequiredArgsConstructor
 public class AuthController {
+
 
     private final AuthService authService;
 
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @Operation(
+            summary = "Авторизация пользователя",
+            responses = {@ApiResponse(responseCode = "200",
+                            description = "OK",
+                    content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Login login) {
+    public ResponseEntity<UserDto> login(@RequestBody Login login) {
         if (authService.login(login.getUsername(), login.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
@@ -29,8 +40,17 @@ public class AuthController {
         }
     }
 
+    @Operation(
+            summary = "Регистрация пользователя",
+            responses = {@ApiResponse(
+                            responseCode = "201",
+                            description = "Created",
+                    content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "400",
+                            description = "Bad Request",
+                            content = @Content(schema = @Schema(hidden = true)))})
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Register register) {
+    public ResponseEntity<UserDto> register(@RequestBody Register register) {
         if (authService.register(register)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
