@@ -2,9 +2,12 @@ package ru.skypro.homework.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
 @Schema(description = "расширенное объявление")
 public class ExtendedAd {
     @Schema(description = "id объявления", accessMode = Schema.AccessMode.READ_ONLY)
