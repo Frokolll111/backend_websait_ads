@@ -40,7 +40,6 @@ import java.util.Objects;
 
 import java.util.UUID;
 
-
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @Service
@@ -273,5 +272,4 @@ public class AdServiceImpl implements AdService {
             throw new RuntimeException(e);
         }
     }
-
 }

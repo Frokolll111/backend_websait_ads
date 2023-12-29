@@ -1,6 +1,5 @@
 package ru.skypro.homework.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,15 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class WebSecurityConfig {
-
-    @Autowired
-    private DataSource dataSource;
 
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
@@ -27,20 +21,6 @@ public class WebSecurityConfig {
             "/login",
             "/register"
     };
-
-
-   /* @Bean
-    public JdbcUserDetailsManager userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user@gmail.com")
-                        .password("password")
-                        .roles(Role.USER.name())
-                        .build();
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        jdbcUserDetailsManager.createUser(user);
-        return jdbcUserDetailsManager;
-    }*/
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,5 +48,4 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

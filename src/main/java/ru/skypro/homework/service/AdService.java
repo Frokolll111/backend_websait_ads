@@ -25,5 +25,4 @@ public interface AdService {
     void uploadImage(int pk, Authentication authentication, MultipartFile image, String userName);
 
     byte[] getAdImage(String filename);
-
 }
