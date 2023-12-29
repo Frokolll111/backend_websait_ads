@@ -1,4 +1,5 @@
-<img width="387" alt="image" src="https://github.com/xlimitan/backend_websait_ads/assets/123659683/530ce28b-62a5-4279-a0a0-5bc57cf58ad4">
+![image](https://github.com/xlimitan/backend_websait_ads/assets/123659683/530ce28b-62a5-4279-a0a0-5bc57cf58ad4)
+
 # Backend сайта объявлений.
 _____
 # Команда №4:
