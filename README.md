@@ -1,4 +1,6 @@
-![image](https://github.com/xlimitan/backend_websait_ads/assets/123659683/530ce28b-62a5-4279-a0a0-5bc57cf58ad4)
+<p align="center">
+  <img width="400" height="250" src="https://github.com/xlimitan/backend_websait_ads/assets/123659683/530ce28b-62a5-4279-a0a0-5bc57cf58ad4)">
+</p>
 
 # Backend сайта объявлений.
 _____
