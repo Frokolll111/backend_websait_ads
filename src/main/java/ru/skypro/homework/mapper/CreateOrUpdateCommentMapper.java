@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Comment;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CreateOrUpdateCommentMapper {
     CreateOrUpdateCommentMapper INSTANCE = Mappers.getMapper(CreateOrUpdateCommentMapper.class);
@@ -15,5 +16,4 @@ public interface CreateOrUpdateCommentMapper {
 
     @Mapping(target = "text", source = "text")
     Comment toModel(CreateOrUpdateComment createOrUpdateComment);
-
 }

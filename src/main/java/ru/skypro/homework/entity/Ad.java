@@ -26,5 +26,4 @@ public class Ad {
     @Transient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "ad", orphanRemoval = true)
     private List<Comment> commentList;
-
 }

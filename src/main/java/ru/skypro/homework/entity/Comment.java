@@ -22,5 +22,4 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pk;
     private String text;
-
 }

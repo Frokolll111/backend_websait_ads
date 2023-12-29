@@ -8,8 +8,6 @@ import ru.skypro.homework.dto.AdDto;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface AdMapper {
     AdMapper INSTANCE = Mappers.getMapper(AdMapper.class);

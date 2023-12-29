@@ -8,7 +8,6 @@ import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
 
-
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ExtendedAdMapper {
 
@@ -22,7 +21,5 @@ public interface ExtendedAdMapper {
     @Mapping(source = "user.phone", target = "phone")
     @Mapping(source = "ad.price", target = "price")
     @Mapping(source = "ad.title", target = "title")
-
     ExtendedAd toDto(Ad ad, User user);
-
 }

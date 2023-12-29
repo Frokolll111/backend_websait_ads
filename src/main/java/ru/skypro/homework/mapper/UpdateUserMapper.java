@@ -2,7 +2,6 @@ package ru.skypro.homework.mapper;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.entity.User;
 
