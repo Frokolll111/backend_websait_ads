@@ -33,10 +33,3 @@ _____
 - Docker
 - Mapstruct
 
-SQL: Spring JPA Liquibase
-
-Test: Junit Mockito Frontend:
-
-Docker image
-
-Разработчики: Камеронов Вячеслав Сысоев Леонид Дрот Александр
