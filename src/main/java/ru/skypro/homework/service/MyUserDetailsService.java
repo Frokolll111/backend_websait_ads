@@ -16,6 +16,10 @@ import ru.skypro.homework.entity.User;
 import ru.skypro.homework.repository.UserRepository;
 
 import java.nio.file.AccessDeniedException;
+
+/**
+ * Класс MyUserDetailsService - это класс представляющий UserDetailsManager
+ */
 @Component
 public class MyUserDetailsService implements UserDetailsManager {
 

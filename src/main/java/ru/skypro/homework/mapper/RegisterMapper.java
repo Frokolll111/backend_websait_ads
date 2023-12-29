@@ -6,7 +6,9 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс RegisterMapper представляющий преобразование Register
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RegisterMapper {
 

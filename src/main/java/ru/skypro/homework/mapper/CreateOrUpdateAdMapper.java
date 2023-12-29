@@ -7,7 +7,9 @@ import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CreateOrUpdateAd;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс CreateOrUpdateAdMapper представляющий преобразование CreateOrUpdateAd
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CreateOrUpdateAdMapper {
 

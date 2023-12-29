@@ -6,7 +6,9 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Comment;
-
+/**
+ * Интерфейс CreateOrUpdateCommentMapper представляющий преобразование CreateOrUpdateComment
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CreateOrUpdateCommentMapper {
     CreateOrUpdateCommentMapper INSTANCE = Mappers.getMapper(CreateOrUpdateCommentMapper.class);

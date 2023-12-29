@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * Класс User представляет информацию о пользователе. Эта информация сохраняется в базе данных.
+ */
 @Entity
 @Setter
 @Getter

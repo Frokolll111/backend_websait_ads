@@ -8,7 +8,9 @@ import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.User;
-
+/**
+ * Интерфейс CommentMapper представляющий преобразование CommentDto
+ */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);

@@ -2,7 +2,9 @@ package ru.skypro.homework.entity;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
-
+/**
+ * Класс Ad представляет информацию о объявление. Эта информация сохраняется в базе данных.
+ */
 @Entity
 @Setter
 @Getter
